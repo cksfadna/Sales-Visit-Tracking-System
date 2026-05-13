@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sales Visit Tracking System</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:1600px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    color:#1d3557;
+    margin-bottom:5px;
+}
+
+h3{
+    text-align:center;
+    color:#666;
+    margin-top:0;
+    margin-bottom:25px;
+}
+
+.form-section,
+.report-section{
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom:25px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:5px;
+}
+
+input,
+select{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:14px;
+}
+
+.checkbox-group{
+    display:flex;
+    gap:15px;
+    margin-top:10px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    padding:12px 18px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:15px;
+    margin-top:20px;
+    margin-right:10px;
+    color:white;
+}
+
+.add-btn{
+    background:#1d3557;
+}
+
+.download-btn{
+    background:#198754;
+}
+
+.reset-btn{
+    background:#dc3545;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+.summary-box{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+    margin-top:20px;
+}
+
+.card{
+    background:#e9ecef;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.card h2{
+    margin:0;
+    color:#1d3557;
+}
+
+.card p{
+    margin-top:10px;
+    font-size:24px;
+    font-weight:bold;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th, td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+    font-size:14px;
+}
+
+th{
+    background:#1d3557;
+    color:white;
+}
+
+.chart-container{
+    width:500px;
+    margin:auto;
+    margin-top:30px;
+}
+
+.stock-products{
+    color:#1d3557;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.green{
+    background:#b7efc5;
+    color:#006400;
+    font-weight:bold;
+}
+
+.red{
+    background:#ffccd5;
+    color:#b00020;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Sales Visit Tracking System</h1>
+
+    <h3>
+        Report Created by Fadna - Administration Team
+    </h3>
+
+    <div class="form-section">
+
+        <div class="form-grid">
+
+            <div>
+                <label>Rep Name</label>
+
+                <select id="repName">
+
+                    <option>HESHAN</option>
+                    <option>SANDUN</option>
+                    <option>SAMEERA</option>
+                    <option>SAMANTHA</option>
+                    <option>VIRAJ</option>
+                    <option>PATHUM</option>
+                    <option>TINUKA</option>
+                    <option>CHAMOD</option>
+                    <option>VIMUKTHI</option>
+                    <option>THARINDU</option>
+                    <option>CHAMAL</option>
+                    <option>KOLITHA</option>
+                    <option>AKISARA</option>
+                    <option>THUSHANTHA</option>
+                    <option>HIRAN</option>
+
+                </select>
+            </div>
+
+            <div>
+
+                <label>Sales Category</label>
+
+                <select id="salesCategory">
+
+                    <option>Direct Trade</option>
+                    <option>Modern Trade</option>
+                    <option>Salon</option>
+
+                </select>
+
+            </div>
+
+            <div>
+                <label>Total Customers</label>
+                <input type="number" id="totalCustomers">
+            </div>
+
+            <div>
+                <label>Total Visits</label>
+                <input type="number" id="totalVisits">
+            </div>
+
+            <div>
+                <label>Call Lost</label>
+                <input type="number" id="callLost" value="0">
+            </div>
+
+            <div>
+
+                <label>Stock Taking</label>
+
+                <input type="number" id="stockTaking" value="0">
+
+                <div class="checkbox-group">
+
+                    <label>
+                        <input type="checkbox" id="tea">
+                        Tea
+                    </label>
+
+                    <label>
+                        <input type="checkbox" id="satiny">
+                        Satiny
+                    </label>
+
+                    <label>
+                        <input type="checkbox" id="orthoshield">
+                        Orthoshield
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div>
+                <label>Sale</label>
+                <input type="number" id="sale" value="0">
+            </div>
+
+            <div>
+                <label>Payment</label>
+                <input type="number" id="payment" value="0">
+            </div>
+
+            <div>
+                <label>Return</label>
+                <input type="number" id="returnCount" value="0">
+            </div>
+
+            <div>
+                <label>Add Customer</label>
+                <input type="number" id="addCustomer" value="0">
+            </div>
+
+        </div>
+
+        <button class="add-btn" onclick="addRecord()">
+            Add Record
+        </button>
+
+        <button class="download-btn" onclick="downloadPNG()">
+            Download PNG
+        </button>
+
+        <button class="reset-btn" onclick="resetSystem()">
+            Reset
+        </button>
+
+    </div>
+
+    <div class="report-section" id="reportSection">
+
+        <h2>Overall Summary</h2>
+
+        <div class="summary-box">
+
+            <div class="card">
+
+                <h2>Total Customers</h2>
+
+                <p id="summaryCustomers">0</p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Total Visits</h2>
+
+                <p id="summaryVisits">0</p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Visit %</h2>
+
+                <p id="visitPercentage">0%</p>
+
+            </div>
+
+        </div>
+
+        <div class="chart-container">
+            <canvas id="visitChart"></canvas>
+        </div>
+
+        <h2>Category Summary</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Category</th>
+                    <th>Total Customers</th>
+                    <th>Total Visits</th>
+                    <th>Visit %</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="categorySummaryBody">
+
+            </tbody>
+
+        </table>
+
+        <h2>Final Visit Report</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Rep Name</th>
+                    <th>Category</th>
+                    <th>Total Customers</th>
+                    <th>Total Visits</th>
+                    <th>Visit %</th>
+
+                    <th>Call Lost</th>
+                    <th>Call Lost %</th>
+
+                    <th>Stock Taking</th>
+                    <th>Stock Taking %</th>
+
+                    <th>Sale</th>
+                    <th>Sale %</th>
+
+                    <th>Payment</th>
+                    <th>Payment %</th>
+
+                    <th>Return</th>
+                    <th>Return %</th>
+
+                    <th>Add Customer</th>
+                    <th>Add Customer %</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="recordTableBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let records = [];
+let chart;
+
+function addRecord(){
+
+    const repName =
+        document.getElementById("repName").value;
+
+    const salesCategory =
+        document.getElementById("salesCategory").value;
+
+    const totalCustomers =
+        Number(document.getElementById("totalCustomers").value);
+
+    const totalVisits =
+        Number(document.getElementById("totalVisits").value);
+
+    const callLost =
+        Number(document.getElementById("callLost").value);
+
+    const stockTaking =
+        Number(document.getElementById("stockTaking").value);
+
+    const sale =
+        Number(document.getElementById("sale").value);
+
+    const payment =
+        Number(document.getElementById("payment").value);
+
+    const returnCount =
+        Number(document.getElementById("returnCount").value);
+
+    const addCustomer =
+        Number(document.getElementById("addCustomer").value);
+
+    if(totalCustomers === 0 || totalVisits === 0){
+
+        alert("Please Enter Customers and Visits");
+        return;
+    }
+
+    let selectedProducts = [];
+
+    if(document.getElementById("tea").checked){
+        selectedProducts.push("Tea");
+    }
+
+    if(document.getElementById("satiny").checked){
+        selectedProducts.push("Satiny");
+    }
+
+    if(document.getElementById("orthoshield").checked){
+        selectedProducts.push("Orthoshield");
+    }
+
+    records.push({
+
+        repName,
+        salesCategory,
+        totalCustomers,
+        totalVisits,
+        visitPercent:
+            ((totalVisits / totalCustomers) * 100).toFixed(1),
+
+        callLost,
+        stockTaking,
+        sale,
+        payment,
+        returnCount,
+        addCustomer,
+
+        products:selectedProducts.join(", ")
+
+    });
+
+    renderTable();
+    renderSummary();
+    renderCategorySummary();
+    renderChart();
+
+    clearForm();
+
+}
+
+function renderTable(){
+
+    const tbody =
+        document.getElementById("recordTableBody");
+
+    tbody.innerHTML = "";
+
+    records.forEach(record => {
+
+        const callLostPercent =
+            ((record.callLost / record.totalVisits) * 100 || 0)
+            .toFixed(1);
+
+        const stockPercent =
+            ((record.stockTaking / record.totalVisits) * 100 || 0)
+            .toFixed(1);
+
+        const salePercent =
+            ((record.sale / record.totalVisits) * 100 || 0)
+            .toFixed(1);
+
+        const paymentPercent =
+            ((record.payment / record.totalVisits) * 100 || 0)
+            .toFixed(1);
+
+        const returnPercent =
+            ((record.returnCount / record.totalVisits) * 100 || 0)
+            .toFixed(1);
+
+        const addCustomerPercent =
+            ((record.addCustomer / record.totalVisits) * 100 || 0)
+            .toFixed(1);
+
+        tbody.innerHTML += `
+
+            <tr>
+
+                <td>${record.repName}</td>
+
+                <td>${record.salesCategory}</td>
+
+                <td>${record.totalCustomers}</td>
+
+                <td>${record.totalVisits}</td>
+
+                <td class="green">
+                    ${record.visitPercent}%
+                </td>
+
+                <td>${record.callLost}</td>
+                <td>${callLostPercent}%</td>
+
+                <td>
+                    ${record.stockTaking}
+
+                    <br>
+
+                    <span class="stock-products">
+                        ${record.products}
+                    </span>
+                </td>
+
+                <td>${stockPercent}%</td>
+
+                <td>${record.sale}</td>
+                <td>${salePercent}%</td>
+
+                <td>${record.payment}</td>
+                <td>${paymentPercent}%</td>
+
+                <td>${record.returnCount}</td>
+                <td>${returnPercent}%</td>
+
+                <td>${record.addCustomer}</td>
+                <td>${addCustomerPercent}%</td>
+
+            </tr>
+
+        `;
+    });
+
+}
+
+function renderSummary(){
+
+    let totalCustomers = 0;
+    let totalVisits = 0;
+
+    records.forEach(record => {
+
+        totalCustomers += record.totalCustomers;
+        totalVisits += record.totalVisits;
+
+    });
+
+    const visitPercent =
+        totalCustomers > 0
+        ? ((totalVisits / totalCustomers) * 100).toFixed(1)
+        : 0;
+
+    document.getElementById("summaryCustomers")
+        .innerText = totalCustomers;
+
+    document.getElementById("summaryVisits")
+        .innerText = totalVisits;
+
+    document.getElementById("visitPercentage")
+        .innerText = visitPercent + "%";
+
+}
+
+function renderCategorySummary(){
+
+    const categories = [
+        "Direct Trade",
+        "Modern Trade",
+        "Salon"
+    ];
+
+    const tbody =
+        document.getElementById("categorySummaryBody");
+
+    tbody.innerHTML = "";
+
+    categories.forEach(category => {
+
+        const filtered =
+            records.filter(
+                record => record.salesCategory === category
+            );
+
+        let customers = 0;
+        let visits = 0;
+
+        filtered.forEach(record => {
+
+            customers += record.totalCustomers;
+            visits += record.totalVisits;
+
+        });
+
+        const percent =
+            customers > 0
+            ? ((visits/customers) * 100).toFixed(1)
+            : 0;
+
+        tbody.innerHTML += `
+
+            <tr>
+
+                <td>${category}</td>
+
+                <td>${customers}</td>
+
+                <td>${visits}</td>
+
+                <td class="green">
+                    ${percent}%
+                </td>
+
+            </tr>
+
+        `;
+    });
+
+}
+
+function renderChart(){
+
+    let callLost = 0;
+    let stockTaking = 0;
+    let sale = 0;
+    let payment = 0;
+    let returnCount = 0;
+    let addCustomer = 0;
+
+    records.forEach(record => {
+
+        callLost += record.callLost;
+        stockTaking += record.stockTaking;
+        sale += record.sale;
+        payment += record.payment;
+        returnCount += record.returnCount;
+        addCustomer += record.addCustomer;
+
+    });
+
+    const ctx =
+        document.getElementById("visitChart");
+
+    if(chart){
+        chart.destroy();
+    }
+
+    chart = new Chart(ctx, {
+
+        type:'pie',
+
+        data:{
+
+            labels:[
+                'Call Lost',
+                'Stock Taking',
+                'Sale',
+                'Payment',
+                'Return',
+                'Add Customer'
+            ],
+
+            datasets:[{
+
+                data:[
+                    callLost,
+                    stockTaking,
+                    sale,
+                    payment,
+                    returnCount,
+                    addCustomer
+                ]
+
+            }]
+
+        }
+
+    });
+
+}
+
+function clearForm(){
+
+    document.getElementById("totalCustomers").value = "";
+    document.getElementById("totalVisits").value = "";
+
+    document.getElementById("callLost").value = 0;
+    document.getElementById("stockTaking").value = 0;
+    document.getElementById("sale").value = 0;
+    document.getElementById("payment").value = 0;
+    document.getElementById("returnCount").value = 0;
+    document.getElementById("addCustomer").value = 0;
+
+    document.getElementById("tea").checked = false;
+    document.getElementById("satiny").checked = false;
+    document.getElementById("orthoshield").checked = false;
+
+}
+
+function resetSystem(){
+
+    if(confirm("Reset all records?")){
+
+        records = [];
+
+        renderTable();
+        renderSummary();
+        renderCategorySummary();
+        renderChart();
+
+    }
+
+}
+
+function downloadPNG(){
+
+    html2canvas(
+        document.querySelector("#reportSection")
+    ).then(canvas => {
+
+        const link = document.createElement("a");
+
+        link.download =
+            "Sales_Visit_Tracking_Report.png";
+
+        link.href = canvas.toDataURL();
+
+        link.click();
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
